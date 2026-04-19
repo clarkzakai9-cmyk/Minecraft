@@ -1,0 +1,373 @@
+/* style.css - All UI styling */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+:root {
+    --bg-dark: rgba(20, 20, 20, 0.85);
+    --border: #444;
+    --border-light: #777;
+    --text: #eee;
+    --accent: #5a9b3a;
+    --accent-hover: #6ab04a;
+    --danger: #cc4444;
+}
+
+* {
+    box-sizing: border-box;
+    user-select: none;
+    font-family: 'VT323', monospace;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+    color: var(--text);
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* UI Overlays */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-dark);
+    z-index: 10;
+    backdrop-filter: blur(4px);
+}
+
+#main-menu {
+    background: transparent; /* Allows viewing camera behind */
+}
+
+/* Typography */
+h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 4px 4px 0 #000;
+    margin-bottom: 2rem;
+    text-align: center;
+    line-height: 1.2;
+}
+
+h2 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 0 #000;
+}
+
+/* Buttons */
+.btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+}
+
+button {
+    background-color: var(--border);
+    color: var(--text);
+    border: 2px solid #222;
+    border-top-color: var(--border-light);
+    border-left-color: var(--border-light);
+    padding: 12px 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.1s;
+    text-shadow: 1px 1px 0 #000;
+}
+
+button:hover {
+    background-color: var(--accent);
+    border-top-color: #8ce06a;
+    border-left-color: #8ce06a;
+}
+
+button:active {
+    border: 2px solid #222;
+    border-bottom-color: var(--border-light);
+    border-right-color: var(--border-light);
+    padding: 14px 18px 10px 22px;
+}
+
+/* In-game HUD */
+#hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    display: none;
+}
+
+.crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M9 0h2v9H9V0zm0 11h2v9H9v-9zM0 9h9v2H0V9zm11 0h9v2h-9V9z" fill="rgba(255,255,255,0.8)"/></svg>');
+    mix-blend-mode: difference;
+}
+
+.hud-bottom {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+#selected-item-name {
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 0 #000;
+    transition: opacity 0.5s;
+    opacity: 0;
+}
+
+.bars {
+    display: flex;
+    justify-content: space-between;
+    width: 364px; /* matches hotbar width */
+    margin-bottom: 2px;
+}
+
+.bar-container {
+    display: flex;
+    gap: 2px;
+}
+
+.heart, .drumstick {
+    width: 9px;
+    height: 9px;
+    background-color: #222;
+    border: 1px solid #000;
+}
+
+.heart.full { background-color: #f00; }
+.heart.half { background: linear-gradient(90deg, #f00 50%, #222 50%); }
+
+.drumstick.full { background-color: #8a5a2a; }
+.drumstick.half { background: linear-gradient(90deg, #8a5a2a 50%, #222 50%); }
+
+.hotbar {
+    display: flex;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid #222;
+    padding: 2px;
+}
+
+.hotbar-slot {
+    width: 40px;
+    height: 40px;
+    background: #8b8b8b;
+    border: 2px solid #373737;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hotbar-slot.selected {
+    border: 2px solid #fff;
+    outline: 2px solid #000;
+    z-index: 2;
+}
+
+.hotbar-slot img {
+    width: 32px;
+    height: 32px;
+    image-rendering: pixelated;
+}
+
+.item-count {
+    position: absolute;
+    bottom: 0;
+    right: 2px;
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000;
+    font-family: 'VT323', monospace;
+}
+
+/* Inventory Screen */
+#inventory-screen {
+    background: rgba(0,0,0,0.7);
+}
+
+.inv-container {
+    background: #c6c6c6;
+    border: 3px solid #000;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #333;
+}
+
+.inv-header {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.inv-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 40px);
+    gap: 2px;
+}
+
+.inv-slot {
+    width: 40px;
+    height: 40px;
+    background: #8b8b8b;
+    border: 2px solid #373737;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.inv-slot:hover {
+    background: #a0a0a0;
+}
+
+.inv-slot img {
+    width: 32px;
+    height: 32px;
+    image-rendering: pixelated;
+}
+
+.crafting-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.arrow {
+    font-size: 2rem;
+}
+
+.dragged-item {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    pointer-events: none;
+    z-index: 100;
+    transform: translate(-50%, -50%);
+}
+
+.dragged-item img {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+}
+
+/* Settings / Menus */
+.panel {
+    background: rgba(0,0,0,0.8);
+    border: 2px solid #555;
+    padding: 30px;
+    border-radius: 5px;
+    width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+input[type="range"] {
+    width: 150px;
+}
+
+/* Worlds List */
+#worlds-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.world-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #333;
+    padding: 10px;
+    border: 1px solid #555;
+}
+
+.world-item button {
+    font-size: 1rem;
+    padding: 5px 10px;
+}
+
+/* Loading Screen */
+.loading-bar {
+    width: 400px;
+    height: 30px;
+    background: #222;
+    border: 2px solid #555;
+    margin-top: 20px;
+    position: relative;
+}
+
+.loading-bar-inner {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width 0.2s;
+}
+
+/* Toasts */
+.toast {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    z-index: 100;
+    pointer-events: none;
+    transition: opacity 0.5s;
+    opacity: 0;
+}

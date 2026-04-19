@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MinecraftJS Sandbox</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Main Game Canvas -->
+<canvas id="game-canvas"></canvas>
+
+<!-- Main Menu -->
+<div id="main-menu" class="screen">
+    <h1>MINECRAFT JS</h1>
+    <div class="btn-group">
+        <button id="btn-play">Play / Load</button>
+        <button id="btn-new-world">New World</button>
+        <button id="btn-settings">Settings</button>
+        <button id="btn-controls" onclick="alert('WASD: Move\nMouse: Look\nLeft Click: Break\nRight Click: Place/Interact\nSpace: Jump\nShift: Sprint\nCtrl: Crouch\nE: Inventory\nEsc: Pause\n1-9: Hotbar')">Controls</button>
+        <button id="btn-credits" onclick="alert('Minecraft-inspired Voxel Sandbox\nBuilt with vanilla JS, HTML, CSS, and Three.js')">Credits</button>
+    </div>
+</div>
+
+<!-- Worlds Menu -->
+<div id="worlds-panel" class="screen" style="display:none;">
+    <h2>Select World</h2>
+    <div id="worlds-list" class="panel">
+        <!-- populated by js -->
+    </div>
+    <button id="btn-worlds-back" style="margin-top: 20px;">Back</button>
+</div>
+
+<!-- Settings Panel -->
+<div id="settings-panel" class="screen" style="display:none;">
+    <h2>Settings</h2>
+    <div class="panel">
+        <div class="setting-row">
+            <span>Music</span>
+            <input type="checkbox" id="set-music" checked>
+        </div>
+        <div class="setting-row">
+            <span>Sound Effects</span>
+            <input type="checkbox" id="set-sound" checked>
+        </div>
+        <div class="setting-row">
+            <span>Render Distance</span>
+            <input type="range" id="set-render-dist" min="2" max="12" value="6" step="1">
+        </div>
+        <div class="setting-row">
+            <span>Mouse Sensitivity</span>
+            <input type="range" id="set-sens" min="0.0005" max="0.005" value="0.002" step="0.0005">
+        </div>
+        <div class="setting-row" style="justify-content: center; margin-top: 20px;">
+            <button id="btn-settings-back">Done</button>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Screen -->
+<div id="loading-screen" class="screen" style="display:none; background: #111;">
+    <h2>Generating World...</h2>
+    <div id="loading-text">Preparing...</div>
+    <div class="loading-bar">
+        <div id="loading-bar-inner" class="loading-bar-inner"></div>
+    </div>
+</div>
+
+<!-- Pause Menu -->
+<div id="pause-menu" class="screen" style="display:none; background: rgba(0,0,0,0.6);">
+    <h2>Game Paused</h2>
+    <div class="btn-group">
+        <button id="btn-resume">Back to Game</button>
+        <button id="btn-pause-settings">Settings</button>
+        <button id="btn-quit">Save and Quit</button>
+    </div>
+</div>
+
+<!-- In-Game HUD -->
+<div id="hud">
+    <div class="crosshair"></div>
+    <div class="hud-bottom">
+        <div id="selected-item-name"></div>
+        <div class="bars">
+            <div id="health-bar" class="bar-container"></div>
+            <div id="hunger-bar" class="bar-container"></div>
+        </div>
+        <div class="hotbar" id="hotbar-slots">
+            <!-- populated by js -->
+        </div>
+    </div>
+</div>
+
+<!-- Inventory Screen -->
+<div id="inventory-screen" class="screen" style="display:none;">
+    <div class="inv-container">
+        <div style="display: flex; gap: 40px;">
+            <div>
+                <div class="inv-header">Crafting</div>
+                <div class="crafting-section">
+                    <div id="crafting-grid" class="inv-grid" style="grid-template-columns: repeat(2, 40px);">
+                        <!-- populated by js -->
+                    </div>
+                    <div class="arrow">➔</div>
+                    <div id="crafting-output">
+                        <!-- populated by js -->
+                    </div>
+                </div>
+            </div>
+            <!-- Player preview could go here -->
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <div class="inv-header">Inventory</div>
+            <div id="inv-main-grid" class="inv-grid">
+                <!-- populated by js -->
+            </div>
+        </div>
+        
+        <div style="margin-top: 10px;">
+            <div id="inv-hotbar-grid" class="inv-grid">
+                <!-- populated by js -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Three.js (CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+<!-- Game Modules -->
+<script src="js/noise.js"></script>
+<script src="js/blocks.js"></script>
+<script src="js/textures.js"></script>
+<script src="js/world.js"></script>
+<script src="js/mesher.js"></script>
+<script src="js/player.js"></script>
+<script src="js/inventory.js"></script>
+<script src="js/crafting.js"></script>
+<script src="js/mobs.js"></script>
+<script src="js/railroad.js"></script>
+<script src="js/weather.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/save.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
